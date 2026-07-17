@@ -1,10 +1,26 @@
+# Dependencies
+node_modules/
+.npm/
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
+# Build output
+dist/
+.vite/
+*.tsbuildinfo
+
+# Test output
+coverage/
+
+# Local overrides
+*.local
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
