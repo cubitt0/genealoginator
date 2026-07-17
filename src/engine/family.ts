@@ -31,9 +31,12 @@ export const PEOPLE: Person[] = [
   { id: 'wife_father', gender: 'M', gen: 1, order: 15 },
   { id: 'wife_mother', gender: 'F', gen: 1, order: 16 },
 
-  // gen 2 - ego's generation
-  { id: 'cousin_aunt', gender: 'F', gen: 2, order: 0.5 },
-  { id: 'cousin_pat', gender: 'M', gen: 2, order: 3 },
+  // gen 2 - ego's generation. Each uncle/aunt has a son AND a daughter, so all six
+  // cousin terms (brat/siostra stryjeczny · wujeczny · cioteczny) are reachable.
+  { id: 'cousin_aunt', gender: 'F', gen: 2, order: 0 },
+  { id: 'cousin_aunt_bro', gender: 'M', gen: 2, order: 1 },
+  { id: 'cousin_pat', gender: 'M', gen: 2, order: 2.5 },
+  { id: 'cousin_pat_sis', gender: 'F', gen: 2, order: 3.5 },
   { id: 'half_sis', gender: 'F', gen: 2, order: 5 },
   { id: 'brother', gender: 'M', gen: 2, order: 6 },
   { id: 'brother_spouse', gender: 'F', gen: 2, order: 7 },
@@ -42,7 +45,8 @@ export const PEOPLE: Person[] = [
   { id: 'half_bro', gender: 'M', gen: 2, order: 10 },
   { id: 'sister', gender: 'F', gen: 2, order: 11 },
   { id: 'sister_spouse', gender: 'M', gen: 2, order: 12 },
-  { id: 'cousin_mat', gender: 'M', gen: 2, order: 13.5 },
+  { id: 'cousin_mat', gender: 'M', gen: 2, order: 13 },
+  { id: 'cousin_mat_sis', gender: 'F', gen: 2, order: 14 },
   { id: 'wife_brother', gender: 'M', gen: 2, order: 15 },
   { id: 'wife_sister', gender: 'F', gen: 2, order: 16 },
   { id: 'wife_sister_spouse', gender: 'M', gen: 2, order: 17 },
@@ -70,13 +74,16 @@ export const PARENT_CHILD: [string, string][] = [
   ['gf_mat', 'mother'], ['gm_mat', 'mother'],
   ['gf_mat', 'uncle_mat'], ['gm_mat', 'uncle_mat'],
   ['aunt_pat', 'cousin_aunt'], ['aunt_pat_spouse', 'cousin_aunt'],
+  ['aunt_pat', 'cousin_aunt_bro'], ['aunt_pat_spouse', 'cousin_aunt_bro'],
   ['uncle_pat', 'cousin_pat'], ['uncle_pat_spouse', 'cousin_pat'],
+  ['uncle_pat', 'cousin_pat_sis'], ['uncle_pat_spouse', 'cousin_pat_sis'],
   ['father', 'brother'], ['mother', 'brother'],
   ['father', 'sister'], ['mother', 'sister'],
   ['father', 'ja'], ['mother', 'ja'],
   ['father', 'half_sis'], ['macocha', 'half_sis'], // half-sibling via step-mother
   ['mother', 'half_bro'], ['ojczym', 'half_bro'], // half-sibling via step-father
   ['uncle_mat', 'cousin_mat'], ['uncle_mat_spouse', 'cousin_mat'],
+  ['uncle_mat', 'cousin_mat_sis'], ['uncle_mat_spouse', 'cousin_mat_sis'],
   ['wife_father', 'wife'], ['wife_mother', 'wife'],
   ['wife_father', 'wife_brother'], ['wife_mother', 'wife_brother'],
   ['wife_father', 'wife_sister'], ['wife_mother', 'wife_sister'],

@@ -132,28 +132,30 @@ export function Tree({
             )}
       </div>
 
-      {/* bottom-left legend */}
-      <div className="tree-legend">
-        <span className="legend__item">
-          <i className="dot dot--M" /> mężczyzna
-        </span>
-        <span className="legend__item">
-          <i className="dot dot--F" /> kobieta
-        </span>
-        <span className="legend__item">✦ dawna nazwa</span>
-      </div>
+      {/* legend + zoom: overlaid on the tree corners on desktop (`display: contents`),
+          reflowed into one row under the tree on narrow screens */}
+      <div className="tree-bar">
+        <div className="tree-legend">
+          <span className="legend__item">
+            <i className="dot dot--M" /> mężczyzna
+          </span>
+          <span className="legend__item">
+            <i className="dot dot--F" /> kobieta
+          </span>
+          <span className="legend__item">✦ dawna nazwa</span>
+        </div>
 
-      {/* bottom-right zoom */}
-      <div className="zoom">
-        <button type="button" onClick={() => setZoom((z) => clamp(+(z + 0.25).toFixed(2), 1, 3))} aria-label="Powiększ">
-          +
-        </button>
-        <button type="button" onClick={() => setZoom((z) => clamp(+(z - 0.25).toFixed(2), 1, 3))} aria-label="Pomniejsz">
-          −
-        </button>
-        <button type="button" onClick={() => setZoom(1)} aria-label="Dopasuj" title="Dopasuj do ekranu (Ctrl + scroll powiększa)">
-          ⤢
-        </button>
+        <div className="zoom">
+          <button type="button" onClick={() => setZoom((z) => clamp(+(z + 0.25).toFixed(2), 1, 3))} aria-label="Powiększ">
+            +
+          </button>
+          <button type="button" onClick={() => setZoom((z) => clamp(+(z - 0.25).toFixed(2), 1, 3))} aria-label="Pomniejsz">
+            −
+          </button>
+          <button type="button" onClick={() => setZoom(1)} aria-label="Dopasuj" title="Dopasuj do ekranu (Ctrl + scroll powiększa)">
+            ⤢
+          </button>
+        </div>
       </div>
 
       <div className="tree-scroll">
@@ -233,9 +235,12 @@ export function Tree({
             const hasName = userName.length > 0;
             const words = role.split(' ');
             const roleFull = `${cap(role)}${label.side ? ` (${label.side})` : ''}`;
+            // dawne nazwy noszą dziś potoczny odpowiednik (brat stryjeczny → kuzyn)
+            const modern = label.term?.alias?.nom;
+            const notes = [gloss, modern ? `dziś: ${modern}` : null].filter(Boolean).join('; ');
             const title = hasName
-              ? `${userName} - ${roleFull}${gloss ? ` (${gloss})` : ''}`
-              : `${roleFull}${gloss ? ` - ${gloss}` : ''}`;
+              ? `${userName} - ${roleFull}${notes ? ` (${notes})` : ''}`
+              : `${roleFull}${notes ? ` - ${notes}` : ''}`;
             const selBadge =
               p.id === aId
                 ? { text: 'Od', cls: 'node__badge--a' }

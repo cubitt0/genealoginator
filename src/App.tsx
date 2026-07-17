@@ -8,6 +8,7 @@ import { ResultPanel } from './ui/ResultPanel';
 import { Tree } from './ui/Tree';
 
 const NAMES_KEY = 'genealoginator.names.v1';
+const DISABLED_KEY = 'genealoginator.disabled.v1';
 
 // Kinship role (relationship to "ja"), computed once - never a personal name.
 const KINSHIP = new Map(PEOPLE.map((p) => [p.id, egoLabelMap.get(p.id)?.text ?? p.id]));
@@ -21,11 +22,30 @@ function loadNames(): Record<string, string> {
   }
 }
 
+// Ids of people switched off in the tree. Ids we no longer know (saved before the tree
+// gained or renamed a branch) are dropped, and "ja" is never restorable as disabled -
+// switching ego off would detach the whole graph.
+function loadDisabled(): Set<string> {
+  if (typeof localStorage === 'undefined') return new Set();
+  try {
+    const raw: unknown = JSON.parse(localStorage.getItem(DISABLED_KEY) || '[]');
+    if (!Array.isArray(raw)) return new Set();
+    const known = new Set(PEOPLE.map((p) => p.id));
+    return new Set(
+      raw.filter(
+        (id): id is string => typeof id === 'string' && known.has(id) && id !== EGO_ID,
+      ),
+    );
+  } catch {
+    return new Set();
+  }
+}
+
 export default function App() {
   const [aId, setAId] = useState<string | null>(null);
   const [bId, setBId] = useState<string | null>(null);
   const [level, setLevel] = useState(2);
-  const [disabled, setDisabled] = useState<Set<string>>(() => new Set());
+  const [disabled, setDisabled] = useState<Set<string>>(loadDisabled);
   const [names, setNames] = useState<Record<string, string>>(loadNames);
   const [editMode, setEditMode] = useState(false);
   const [variant, setVariant] = useState(0); // which of the possible routes to show
@@ -41,6 +61,15 @@ export default function App() {
       /* ignore quota / private-mode errors */
     }
   }, [names]);
+
+  useEffect(() => {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      localStorage.setItem(DISABLED_KEY, JSON.stringify([...disabled]));
+    } catch {
+      /* ignore quota / private-mode errors */
+    }
+  }, [disabled]);
 
   const nameOf = (id: string) => names[id]?.trim() || cap(KINSHIP.get(id) || id);
 

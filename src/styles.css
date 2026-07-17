@@ -365,6 +365,10 @@ body {
   border-radius: 9px;
   box-shadow: var(--shadow);
 }
+/* transparent on desktop: children keep their own absolute corner placement */
+.tree-bar {
+  display: contents;
+}
 .tree-legend {
   position: absolute;
   left: 14px;
@@ -877,4 +881,91 @@ button:disabled {
 }
 .term__star {
   font-size: 11px;
+}
+
+/* ---- mobile ---- */
+@media (max-width: 760px) {
+  .app {
+    padding: 18px 12px 36px;
+  }
+  .app__tagline {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .card--tree {
+    margin-top: 18px;
+    padding: 6px;
+    border-radius: 12px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  /* the tree canvas is too small here to float chrome over it - stack it instead:
+     actions above the tree, legend + zoom in one row below it */
+  .tree-viewport {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .tree-actions {
+    position: static;
+    order: 1;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .tree-scroll {
+    order: 2;
+    overscroll-behavior-x: contain;
+  }
+  .tree-bar {
+    display: flex;
+    order: 3;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .tree-legend,
+  .zoom {
+    position: static;
+  }
+  .tree-legend {
+    gap: 6px 10px;
+    padding: 6px 9px;
+    font-size: 11px;
+    box-shadow: none;
+  }
+
+  /* keep tiles readable: pan the tree sideways rather than shrink it to illegibility */
+  .tree {
+    min-width: 860px;
+  }
+
+  .below {
+    margin-top: 18px;
+    gap: 18px;
+  }
+  .controlbar {
+    padding: 14px;
+    gap: 14px;
+  }
+  .pair {
+    gap: 10px;
+  }
+  .fader__label {
+    font-size: 12px;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 14px 18px;
+  }
+
+  .panel {
+    padding: 18px 16px;
+  }
+  .panel__section {
+    margin-top: 18px;
+    padding-top: 14px;
+  }
 }

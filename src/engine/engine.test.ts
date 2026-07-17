@@ -52,9 +52,13 @@ describe('collapse rules → known idioms (archaic preferred)', () => {
     ['aunt_pat', 'ciotka'],
     ['uncle_pat_spouse', 'stryjenka'],
     ['aunt_pat_spouse', 'pociot'], // aunt's husband - archaic
+    // all six cousin terms are reachable - each uncle/aunt has a son and a daughter
     ['cousin_pat', 'brat stryjeczny'],
+    ['cousin_pat_sis', 'siostra stryjeczna'],
     ['cousin_mat', 'brat wujeczny'],
+    ['cousin_mat_sis', 'siostra wujeczna'],
     ['cousin_aunt', 'siostra cioteczna'],
+    ['cousin_aunt_bro', 'brat cioteczny'],
     ['wife', 'żona'],
     ['wife_father', 'teść'],
     ['wife_brother', 'szurzy'], // wife's brother - archaic
